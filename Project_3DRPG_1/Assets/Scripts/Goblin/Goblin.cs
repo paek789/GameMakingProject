@@ -15,6 +15,7 @@ public class Goblin : MonoBehaviour
     public int maxHealth;
     public int curHealth;
     public Image hpBar;
+    public ParticleSystem hit;
 
     bool immune;
 
@@ -101,9 +102,13 @@ public class Goblin : MonoBehaviour
     {
         immune = true;
         Color curColor = mat.color;
+        hit.Play();
         mat.color = Color.red;
+        Time.timeScale = 0.2f;
         yield return new WaitForSeconds(0.1f);
+        Time.timeScale = 1f;
         mat.color = curColor;
+        hit.Stop();
         immune = false;
     }
 

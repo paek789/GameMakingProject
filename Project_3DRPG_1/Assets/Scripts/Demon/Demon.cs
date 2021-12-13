@@ -15,6 +15,7 @@ public class Demon : MonoBehaviour
     public int maxHealth;
     public int curHealth;
     public Image hpBar;
+    public ParticleSystem hit;
     bool stiff;
     bool immune;
     public bool isCover;
@@ -103,7 +104,11 @@ public class Demon : MonoBehaviour
         immune = true;
         Color curColor = mat.color;
         mat.color = Color.red;
+        Time.timeScale = 0.2f;
+        hit.Play();
         yield return new WaitForSeconds(0.1f);
+        hit.Stop();
+        Time.timeScale = 1f;
         mat.color = curColor;
         immune = false;
     }

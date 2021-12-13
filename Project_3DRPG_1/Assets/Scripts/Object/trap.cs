@@ -19,7 +19,7 @@ public class trap : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        if (timer > 3 && timer < 3.1f)
+        if (timer > 3 && timer < 3.04f)
         {
             collider.enabled = true;
             particle1.Play(); particle2.Play(); particle3.Play(); particle4.Play(); particle5.Play(); particle6.Play(); particle7.Play(); particle8.Play(); particle9.Play();

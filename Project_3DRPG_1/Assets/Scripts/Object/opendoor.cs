@@ -7,6 +7,7 @@ public class opendoor : MonoBehaviour
     public GameObject blockwall;
     public GameObject door1;
     public CameraFollow camerafollow;
+    public ParticleSystem fog;
     
     Vector3 doorvec;
     bool isPlayerArrive;
@@ -35,6 +36,7 @@ public class opendoor : MonoBehaviour
         {
             Destroy(blockwall, 0);
             isPlayerArrive = true;
+            fog.Stop();
             camerafollow.StartCoroutine(camerafollow.Shake(0.05f, 4f));
             Destroy(gameObject, 5);
         }

@@ -11,7 +11,9 @@ public class Boss1 : MonoBehaviour
     public int maxHealth;
     public int curHealth;
     public Image hpBar;
+    public ParticleSystem hit;
     Color curColor;
+
 
     Animator animator;
     Rigidbody rigid;
@@ -58,11 +60,13 @@ public class Boss1 : MonoBehaviour
 
     IEnumerator OnDamage()
     {
-
         mat.color = Color.red;
+        hit.Play();
+        Time.timeScale = 0.2f;
         yield return new WaitForSeconds(0.1f);
+        Time.timeScale = 1f;
+        hit.Stop();
         mat.color = curColor;
-
     }
 
     public IEnumerator Del()

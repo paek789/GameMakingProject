@@ -15,5 +15,6 @@ public class HpBar : MonoBehaviour
     void Update()
     {
         transform.LookAt(transform.position + cameraTransform.rotation * Vector3.forward, cameraTransform.rotation * Vector3.up);
+
     }
 }

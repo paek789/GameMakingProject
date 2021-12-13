@@ -37,6 +37,8 @@ public class Player : MonoBehaviour
     Rigidbody rigid;
     Animator animator;
     ParticleSystem blockParticle;
+    public ParticleSystem sparkParticle1, sparkParticle2;
+    public ParticleSystem fireParticle1, fireParticle2;
     Color curColor;
 
     public Transform player;
@@ -161,12 +163,14 @@ public class Player : MonoBehaviour
         else if(other.tag == "spell1")
         {
             spell1 spell1 = other.GetComponent<spell1>();
+            StartCoroutine(SparkParticle());
             damagevec = new Vector3(other.transform.position.x, transform.position.y, other.transform.position.z);
             getdamage = spell1.damage;
         }
         else if (other.tag == "spell2")
         {
             spell2 spell2 = other.GetComponentInParent<spell2>();
+            StartCoroutine(FireParticle());
             damagevec = new Vector3(other.transform.position.x, transform.position.y, other.transform.position.z);
             getdamage = spell2.damage;
         }
@@ -175,18 +179,21 @@ public class Player : MonoBehaviour
             if(other.tag == "trap")
             {
                 trap trap = other.GetComponent<trap>();
+                StartCoroutine(FireParticle());
                 getdamage = trap.damage;
 
             }
             else if (other.tag == "trap1")
             {
                 trap1 trap1 = other.GetComponent<trap1>();
+                StartCoroutine(FireParticle());
                 getdamage = trap1.damage;
 
             }
             else if (other.tag == "trap2")
             {
                 trap2 trap2 = other.GetComponent<trap2>();
+                StartCoroutine(FireParticle());
                 getdamage = trap2.damage;
             }
 
@@ -233,5 +240,21 @@ public class Player : MonoBehaviour
         blockParticle.Play();
         yield return new WaitForSeconds(0.5f);
         blockParticle.Stop();
+    }
+    IEnumerator SparkParticle()
+    {
+        sparkParticle1.Play();
+        sparkParticle2.Play();
+        yield return new WaitForSeconds(1.5f);        
+        sparkParticle1.Stop();
+        sparkParticle2.Stop();
+    }
+    IEnumerator FireParticle()
+    {
+        fireParticle1.Play();
+        fireParticle2.Play();
+        yield return new WaitForSeconds(3f);
+        fireParticle1.Stop();
+        fireParticle2.Stop();
     }
 }

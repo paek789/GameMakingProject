@@ -7,6 +7,7 @@ public class Opendoor2 : MonoBehaviour
     public GameObject gameObject1, gameObject2, gameObject3, gameObject4;
     public CameraFollow camerafollow;
     Vector3 doorvec;
+    public ParticleSystem fog;
     bool dooropen, dooropen2;
     
     float timer;
@@ -32,6 +33,7 @@ public class Opendoor2 : MonoBehaviour
         if(dooropen && dooropen2)
         {
             camerafollow.StartCoroutine(camerafollow.Shake(0.05f, 4f));
+            fog.Stop();
             dooropen2 = false;
         }
 
