@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Opendoor2 : MonoBehaviour
 {
-    public GameObject gameObject1, gameObject2, gameObject3, gameObject4;
+    public GameObject gameObject1, gameObject2, gameObject3, gameObject4, boss_health;
     public CameraFollow camerafollow;
     Vector3 doorvec;
     public ParticleSystem fog;
@@ -15,7 +15,7 @@ public class Opendoor2 : MonoBehaviour
     void Start()
     {
         timer = 0;
-        doorvec = new Vector3(0, 0.003f, 0);
+        doorvec = new Vector3(0, 0.01f, 0);
         dooropen = false;
         dooropen2 = true;
     }
@@ -24,10 +24,11 @@ public class Opendoor2 : MonoBehaviour
     void Update()
     {
 
-        if(gameObject1 == null && gameObject2 == null && gameObject3 == null && gameObject4 == null && timer < 4)
+        if(gameObject1 == null && gameObject2 == null && gameObject3 == null && gameObject4 == null && timer < 6)
         {
             transform.position += doorvec;
             timer = Time.deltaTime;
+            boss_health.SetActive(true);
             dooropen = true;
         }
         if(dooropen && dooropen2)

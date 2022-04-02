@@ -22,6 +22,11 @@ TagManager:
   - spell1
   - spell2
   - Item_Health
+  - trap
+  - trap1
+  - trap2
+  - opendoor
+  - Demon
   layers:
   - Default
   - TransparentFX

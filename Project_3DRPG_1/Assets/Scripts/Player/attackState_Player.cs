@@ -40,6 +40,7 @@ public class attackState_Player : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         player.rotateVec = player.transform.forward;
+        melee_Attack.enabled = false;
     }
 
 }

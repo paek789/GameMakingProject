@@ -19,7 +19,10 @@ public class Attack1_Demon : StateMachineBehaviour
         timer += Time.deltaTime;
         if (timer >0.35f && timer < 0.55f)
         {
-            demon.transform.position = Vector3.MoveTowards(demon.transform.position, demon.transform_Player.position, Time.deltaTime * demon.speed);
+            if (Vector3.Distance(demon.transform.position, demon.transform_Player.position) > 1.5f)
+            {
+                demon.transform.position = Vector3.MoveTowards(demon.transform.position, demon.transform_Player.position, Time.deltaTime * demon.speed);
+            }
             demon.meleeAttack_range.enabled = true;
         }
         else

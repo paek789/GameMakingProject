@@ -21,7 +21,7 @@ public class IdleOnFight_Demon : StateMachineBehaviour
     {
         demon.transform.LookAt(demon.transform_Player);
 
-        if (distance < 2f)
+        if (distance < 4f)
         {
             animator.SetBool("isRun", false);
             animator.SetBool("spell1", false);

@@ -14,7 +14,7 @@ public class Goblin : MonoBehaviour
     public int damage;
     public int maxHealth;
     public int curHealth;
-    public Image hpBar;
+    public GameObject hpBar;
     public ParticleSystem hit;
 
     bool immune;
@@ -37,9 +37,8 @@ public class Goblin : MonoBehaviour
         animator = GetComponent<Animator>();
         mat = transform.Find("Goblin Hunter").GetComponent<SkinnedMeshRenderer>().material;
         curmat = mat;
-        //hpBar.rectTransform.localScale = new Vector3(1f, 1f, 1f);
         colls = Physics.OverlapSphere(transform.position, 10);
-        hpBar.rectTransform.localScale = new Vector3(1f, 1f, 1f);
+        //hpBar.rectTransform.localScale = new Vector3(1f, 1f, 1f);
         infect = false;
         immune = false;
     }
@@ -47,7 +46,12 @@ public class Goblin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (curHealth <= 0) animator.SetInteger("isDead_goblin", randint % 2 + 1);
+        // transform.LookAt(transform_Player);
+        if (curHealth <= 0) 
+        {
+            hpBar.SetActive(false);
+            animator.SetInteger("isDead_goblin", randint % 2 + 1); 
+        }
         else
         {
 
@@ -85,7 +89,11 @@ public class Goblin : MonoBehaviour
 
             StartCoroutine(OnDamage());
 
-            hpBar.rectTransform.localScale = new Vector3((float)curHealth / (float)maxHealth, 1f, 1f);
+            //hpBar.rectTransform.localScale = new Vector3((float)curHealth / (float)maxHealth, 1f, 1f);
+
+            //hpBar.rectTransform.localScale = new Vector3(Mathf.Lerp(0f,(float)curHealth/(float)maxHealth,Time.deltaTime*5f),1f,1f);
+            Debug.Log(Mathf.Lerp(0f, (float)curHealth / (float)maxHealth, Time.deltaTime * 5f));
+
 
 
             Debug.Log("근접공격 적중. 고블린 현재체력 : " + curHealth);

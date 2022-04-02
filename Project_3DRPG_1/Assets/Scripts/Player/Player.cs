@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public int curhealth;
     public int damage;
     public bool isb;
+    public bool isd;
     public bool invincibility;
 
 
@@ -17,11 +18,13 @@ public class Player : MonoBehaviour
     public float vAxis;
     public bool vDown;
     public bool hDown;
+    public bool sDown;
     public bool mlDown;
     public bool mrDown;
     public bool mrUp;
     public bool spaceDown;
     float timer;
+    float dash_timer;
 
     public Image hpBar;
 
@@ -39,11 +42,11 @@ public class Player : MonoBehaviour
     ParticleSystem blockParticle;
     public ParticleSystem sparkParticle1, sparkParticle2;
     public ParticleSystem fireParticle1, fireParticle2;
+    public GameObject hitScreen;
     Color curColor;
 
     public Transform player;
     int getdamage;
-
 
     void Start()
     {
@@ -53,11 +56,13 @@ public class Player : MonoBehaviour
         mat = GameObject.Find("skeleton_mesh").GetComponent<SkinnedMeshRenderer>().material;
         blockParticle = GameObject.Find("Shockwave").GetComponent<ParticleSystem>();
         isb = false;
+        isd = false;
         curmat = mat;
         rollImmuneDamage = false;
         rotateVec = new Vector3(0, 0, 0).normalized;
         hpBar.rectTransform.localScale = new Vector3(1f, 1f, 1f);
         timer = 1f;
+        dash_timer = 0f;
         invincibility = false;
         curColor = mat.color;
     }
@@ -71,7 +76,18 @@ public class Player : MonoBehaviour
             transform.position += -transform.forward * 3 * Time.deltaTime;
             timer += 0.005f;
         }
+        /*
+        if (sDown && dash_timer > 3f)
+        {
+            StartCoroutine(Dash());            
+        }
+        else
+        {
+            dash_timer += 0.005f;            
+        }
+        */
         getInput();
+        
     }
     void getInput()
     {
@@ -79,10 +95,12 @@ public class Player : MonoBehaviour
         vAxis = Input.GetAxisRaw("Vertical");
         vDown = Input.GetButton("Vertical");
         hDown = Input.GetButton("Horizontal");
+        sDown = Input.GetKeyDown(KeyCode.LeftShift);
         mlDown = Input.GetMouseButtonDown(0);
         mrDown = Input.GetMouseButton(1);
         mrUp = Input.GetMouseButtonUp(1);
         spaceDown = Input.GetButtonDown("Roll");
+        
     }
 
     private void OnTriggerEnter(Collider other)
@@ -232,7 +250,9 @@ public class Player : MonoBehaviour
     IEnumerator OnDamage()
     {
         mat.color = Color.red;
+        hitScreen.SetActive(true);
         yield return new WaitForSeconds(0.1f);
+        hitScreen.SetActive(false);
         mat.color = curColor;
     }
     IEnumerator BlockParticle()
@@ -256,5 +276,12 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(3f);
         fireParticle1.Stop();
         fireParticle2.Stop();
+    }
+
+    IEnumerator Dash()
+    {
+        speed *= 3;
+        yield return new WaitForSeconds(0.3f);
+        speed /= 3;
     }
 }

@@ -45,19 +45,19 @@ public class walkState_Player : StateMachineBehaviour
     {
         if (player.rotateVec.x < player.moveVec.x)
         {
-            player.rotateVec.x += 0.015f;
+            player.rotateVec.x += 0.035f;
         }
         if (player.rotateVec.x > player.moveVec.x)
         {
-            player.rotateVec.x -= 0.015f;
+            player.rotateVec.x -= 0.035f;
         }
         if (player.rotateVec.z < player.moveVec.z)
         {
-            player.rotateVec.z += 0.015f;
+            player.rotateVec.z += 0.035f;
         }
         if (player.rotateVec.z > player.moveVec.z)
         {
-            player.rotateVec.z -= 0.015f;
+            player.rotateVec.z -= 0.035f;
         }
     }
 }

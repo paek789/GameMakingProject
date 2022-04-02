@@ -19,6 +19,11 @@ public class GameManager : MonoBehaviour
     public GameObject goblin3;
     public GameObject demon;
     public GameObject boss;
+    public GameObject goblin_hpbar1;
+    public GameObject goblin_hpbar2;
+    public GameObject goblin_hpbar3;
+    
+
 
     public Text textBossHp;
     public Text textPlayerHp;
@@ -30,6 +35,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         timer = 0;
+        Time.timeScale = 1.2f;
     }
 
     // Update is called once per frame
@@ -54,6 +60,9 @@ public class GameManager : MonoBehaviour
         goblin3.SetActive(true);
         boss.SetActive(true);
         demon.SetActive(true);
+        goblin_hpbar1.SetActive(true);
+        goblin_hpbar2.SetActive(true);
+        goblin_hpbar3.SetActive(true);
     }
 
     private void LateUpdate()

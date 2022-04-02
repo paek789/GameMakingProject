@@ -14,7 +14,7 @@ public class Demon : MonoBehaviour
     public int damage;
     public int maxHealth;
     public int curHealth;
-    public Image hpBar;
+    public GameObject hpBar;
     public ParticleSystem hit;
     bool stiff;
     bool immune;
@@ -37,7 +37,6 @@ public class Demon : MonoBehaviour
         animator = GetComponent<Animator>();
         mat = skin.material;
         curmat = mat;
-        hpBar.rectTransform.localScale = new Vector3(1f, 1f, 1f);
         immune = false;
         stiff = true;
     }
@@ -52,8 +51,8 @@ public class Demon : MonoBehaviour
         else if (Vector3.Distance(transform_Player.position, transform.position) > 25f)
         {
             animator.SetBool("isOnFight", false);
-        }        
-        
+        }
+
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -79,7 +78,6 @@ public class Demon : MonoBehaviour
                 }
             }
             StartCoroutine(OnDamage());
-            hpBar.rectTransform.localScale = new Vector3((float)curHealth / (float)maxHealth, 1f, 1f);
         }
         if (curHealth <= 0)
         {
@@ -104,11 +102,11 @@ public class Demon : MonoBehaviour
         immune = true;
         Color curColor = mat.color;
         mat.color = Color.red;
-        Time.timeScale = 0.2f;
+        Time.timeScale = 0.4f;
         hit.Play();
         yield return new WaitForSeconds(0.1f);
         hit.Stop();
-        Time.timeScale = 1f;
+        Time.timeScale = 1.2f;
         mat.color = curColor;
         immune = false;
     }

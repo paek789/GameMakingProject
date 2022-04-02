@@ -15,7 +15,7 @@ public class opendoor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        doorvec = new Vector3(0, 0.003f, 0);
+        doorvec = new Vector3(0, 0.01f, 0);
         isPlayerArrive = false;
         timer = 0;
     }
