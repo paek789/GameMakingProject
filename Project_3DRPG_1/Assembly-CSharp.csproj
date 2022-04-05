@@ -99,6 +99,7 @@
     <Compile Include="Assets\Scripts\Object\trap.cs" />
     <Compile Include="Assets\Scripts\Object\text_Player.cs" />
     <Compile Include="Assets\Scripts\Demon\GetHit1_Demon.cs" />
+    <Compile Include="Assets\structure_shake.cs" />
     <Compile Include="Assets\QuarterView 3D Action BE5\ReadMe\Scripts\ReadmeBE5.cs" />
     <Compile Include="Assets\Scripts\Goblin\walk_Goblin.cs" />
     <Compile Include="Assets\Scripts\Demon\Spell2_Demon.cs" />
@@ -139,7 +140,8 @@
     <Compile Include="Assets\Scripts\Demon\Attack1_Demon.cs" />
     <Compile Include="Assets\Scripts\Boss1\deathState.cs" />
     <Compile Include="Assets\Shared\Scripts\GunAim.cs" />
-    <Compile Include="Assets\structure_shake.cs" />
+    <Compile Include="Assets\Beacon.cs" />
+    <Compile Include="Assets\TutorialManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\20 Logos PSD\Fonts\chunkfiveex\SIL Open Font License 1.1.txt" />

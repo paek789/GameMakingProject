@@ -6,7 +6,6 @@ public class Item_Health : MonoBehaviour
 {
     public int heal_Amount;
     float timer;
-    Player player;
     float rotate_speed;
 
     // Start is called before the first frame update
@@ -14,7 +13,6 @@ public class Item_Health : MonoBehaviour
     {
         heal_Amount = 30;
         timer = 0;
-        player = GameObject.Find("Player").GetComponent<Player>();
         rotate_speed = 100f;
     }
 

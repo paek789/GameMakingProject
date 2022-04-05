@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public bool gameStart;
     public GameObject panelMenu;
     public GameObject panelGame;
+    public GameObject statusMenu;
+    public GameObject tutorial;
     public GameObject goblin1;
     public GameObject goblin2;
     public GameObject goblin3;
@@ -22,19 +24,27 @@ public class GameManager : MonoBehaviour
     public GameObject goblin_hpbar1;
     public GameObject goblin_hpbar2;
     public GameObject goblin_hpbar3;
-    
 
 
     public Text textBossHp;
     public Text textPlayerHp;
     public Text textTime;
+    public Text player_damage;
+    public Text player_speed;
+    public Text player_health;
+    public Text player_remainPoint;
+    public Text player_remainPotion;
     public RectTransform healthBoss;
     public RectTransform healthPlayer;
 
+    int remainPoint;
+    public int remainPotion;
     // Start is called before the first frame update
     void Start()
     {
         timer = 0;
+        remainPoint = 5;
+        remainPotion = 3;
         Time.timeScale = 1.2f;
     }
 
@@ -45,6 +55,14 @@ public class GameManager : MonoBehaviour
         {
             timer += Time.deltaTime;
         }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            statusMenu.SetActive(true);
+        }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            UsePotion();
+        }
     }
 
     public void startGame()
@@ -54,6 +72,7 @@ public class GameManager : MonoBehaviour
         panelGame.SetActive(true);
         cameraMenu.SetActive(false);
         panelMenu.SetActive(false);
+        tutorial.SetActive(true);
         player.gameObject.SetActive(true);
         goblin1.SetActive(true);
         goblin2.SetActive(true);
@@ -74,4 +93,64 @@ public class GameManager : MonoBehaviour
         healthBoss.localScale = new Vector3((float)boss1.curHealth / (float)boss1.maxHealth, 1, 1);
         healthPlayer.localScale = new Vector3((float)player.curhealth / (float)player.health, 1, 1);
     }
+    public void StatusMenuOff()
+    {
+        statusMenu.SetActive(false);
+    }
+    public void DamageClick()
+    {
+        if(remainPoint != 0)
+        {
+            player.damage += 1;
+            remainPoint--;
+            StatusUpdate();
+        }
+    }
+    public void MovespeedClick()
+    {
+        if (remainPoint != 0)
+        {
+            player.speed += 0.4f;
+            remainPoint--;
+            StatusUpdate();
+        }
+    }
+    public void HealthClick()
+    {
+        if (remainPoint != 0)
+        {
+            player.curhealth += 10;
+            player.health += 10;
+            remainPoint--;
+            StatusUpdate();
+        }
+    }
+    public void StatusUpdate()
+    {
+        player_remainPoint.text = "" + remainPoint;
+        player_health.text = "" + player.health;
+        player_damage.text = "" + player.damage;
+        player_speed.text = "" + (float)(player.speed/4);
+    }
+    public void UsePotion()
+    {
+        if (remainPotion > 0)
+        {
+            player.Potionparticle();
+            remainPotion--;
+            player_remainPotion.text = "" + remainPotion;
+            if (player.curhealth <= 70)
+            {
+                player.curhealth += 30;
+                player.hpBar.rectTransform.localScale = new Vector3((float)player.curhealth / (float)player.health, 1f, 1f);
+            }
+            else
+            {
+                player.curhealth = player.health;
+                player.hpBar.rectTransform.localScale = new Vector3((float)player.curhealth / (float)player.health, 1f, 1f);
+            }
+
+        }
+    }
+
 }

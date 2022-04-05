@@ -17,8 +17,9 @@ public class Goblin : MonoBehaviour
     public GameObject hpBar;
     public ParticleSystem hit;
 
+    TutorialManager tutorialManager;
     bool immune;
-
+    bool isdead;
     int randint;
     bool infect;
 
@@ -41,16 +42,20 @@ public class Goblin : MonoBehaviour
         //hpBar.rectTransform.localScale = new Vector3(1f, 1f, 1f);
         infect = false;
         immune = false;
+        isdead = false; ;
+        tutorialManager = GameObject.Find("GameManager").GetComponent<TutorialManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
         // transform.LookAt(transform_Player);
-        if (curHealth <= 0) 
+        if (curHealth <= 0 && isdead == false) 
         {
             hpBar.SetActive(false);
-            animator.SetInteger("isDead_goblin", randint % 2 + 1); 
+            animator.SetInteger("isDead_goblin", randint % 2 + 1);
+            isdead = true;
+            tutorialManager.goblin++;
         }
         else
         {
@@ -114,7 +119,7 @@ public class Goblin : MonoBehaviour
         mat.color = Color.red;
         Time.timeScale = 0.2f;
         yield return new WaitForSeconds(0.1f);
-        Time.timeScale = 1f;
+        Time.timeScale = 1.2f;
         mat.color = curColor;
         hit.Stop();
         immune = false;
@@ -126,7 +131,7 @@ public class Goblin : MonoBehaviour
         yield return new WaitForSeconds(0.6f);
         GameObject intantarrow = Instantiate(arrow, arrowstart.position, transform.rotation);
         Rigidbody arrowRigid = intantarrow.GetComponent<Rigidbody>();
-        arrowRigid.velocity = transform.forward * 10;
+        arrowRigid.velocity = (transform.forward + new Vector3(0,0.2f,0)) * 20;
     }
 
 } 

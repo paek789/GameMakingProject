@@ -40,8 +40,8 @@ public class Player : MonoBehaviour
     Rigidbody rigid;
     Animator animator;
     ParticleSystem blockParticle;
-    public ParticleSystem sparkParticle1, sparkParticle2;
-    public ParticleSystem fireParticle1, fireParticle2;
+    public ParticleSystem fireParticle1, fireParticle2, sparkParticle1, sparkParticle2, potionParticle;
+    public TutorialManager tutorialManager;
     public GameObject hitScreen;
     Color curColor;
 
@@ -55,6 +55,7 @@ public class Player : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider>();
         mat = GameObject.Find("skeleton_mesh").GetComponent<SkinnedMeshRenderer>().material;
         blockParticle = GameObject.Find("Shockwave").GetComponent<ParticleSystem>();
+        tutorialManager = GameObject.Find("GameManager").GetComponent<TutorialManager>();
         isb = false;
         isd = false;
         curmat = mat;
@@ -105,6 +106,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.tag == "trap_tutorial") tutorialManager.trap=1;
         if (!invincibility && curhealth > 0)
         {
             if (!rollImmuneDamage)
@@ -134,19 +136,10 @@ public class Player : MonoBehaviour
 
             if(other.tag == "Item_Health")
             {
-                Debug.Log(other.tag);
-                Item_Health item_Health = other.GetComponent<Item_Health>();
-                if (curhealth + item_Health.heal_Amount <= 70)
-                {
-                    curhealth += item_Health.heal_Amount;
-                    hpBar.rectTransform.localScale = new Vector3((float)curhealth / (float)health, 1f, 1f);
-                }
-                else
-                {
-                    curhealth = health;
-                    hpBar.rectTransform.localScale = new Vector3((float)curhealth / (float)health, 1f, 1f);
-                }
-}
+                GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+                gameManager.remainPotion++;
+                gameManager.player_remainPotion.text = "" + gameManager.remainPotion;
+                Debug.Log(other.tag);}
 
         }
     }
@@ -240,6 +233,10 @@ public class Player : MonoBehaviour
 
         
     }
+    public void Potionparticle()
+    {
+        StartCoroutine(PotionParticle());
+    }
     public IEnumerator onimmuneDamage()
     {
         rollImmuneDamage = true;
@@ -276,6 +273,12 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(3f);
         fireParticle1.Stop();
         fireParticle2.Stop();
+    }
+    IEnumerator PotionParticle()
+    {
+        potionParticle.Play();
+        yield return new WaitForSeconds(1f);
+        potionParticle.Stop();
     }
 
     IEnumerator Dash()

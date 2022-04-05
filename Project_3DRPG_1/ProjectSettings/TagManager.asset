@@ -27,6 +27,8 @@ TagManager:
   - trap2
   - opendoor
   - Demon
+  - Beacon
+  - trap_tutorial
   layers:
   - Default
   - TransparentFX

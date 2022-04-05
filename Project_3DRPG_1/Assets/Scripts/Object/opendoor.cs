@@ -8,6 +8,7 @@ public class opendoor : MonoBehaviour
     public GameObject door1;
     public CameraFollow camerafollow;
     public ParticleSystem fog;
+    TutorialManager tutorialManager;
     
     Vector3 doorvec;
     bool isPlayerArrive;
@@ -17,6 +18,7 @@ public class opendoor : MonoBehaviour
     {
         doorvec = new Vector3(0, 0.01f, 0);
         isPlayerArrive = false;
+        tutorialManager = GameObject.Find("GameManager").GetComponent<TutorialManager>();
         timer = 0;
     }
 
@@ -34,6 +36,7 @@ public class opendoor : MonoBehaviour
 
         if(other.tag == "Player")
         {
+            tutorialManager.tutorial = 1;
             Destroy(blockwall, 0);
             isPlayerArrive = true;
             fog.Stop();

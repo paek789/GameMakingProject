@@ -64,7 +64,7 @@ public class Boss1 : MonoBehaviour
         hit.Play();
         Time.timeScale = 0.2f;
         yield return new WaitForSeconds(0.1f);
-        Time.timeScale = 1f;
+        Time.timeScale = 1.2f;
         hit.Stop();
         mat.color = curColor;
     }
