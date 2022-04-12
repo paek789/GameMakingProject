@@ -12,9 +12,8 @@ public class Goblin : MonoBehaviour
     public Transform goblin;
     public float speed;
     public int damage;
-    public int maxHealth;
+    public float maxHealth;
     public int curHealth;
-    public GameObject hpBar;
     public ParticleSystem hit;
 
     TutorialManager tutorialManager;
@@ -22,6 +21,12 @@ public class Goblin : MonoBehaviour
     bool isdead;
     int randint;
     bool infect;
+    bool showHpbar;
+
+    public GameObject hpBarpref;
+    GameObject hpBar_parent;
+    GameObject hpBar;
+    HpBar hpBar_script;
 
     public CapsuleCollider meleeAttack_Goblin;
 
@@ -39,23 +44,30 @@ public class Goblin : MonoBehaviour
         mat = transform.Find("Goblin Hunter").GetComponent<SkinnedMeshRenderer>().material;
         curmat = mat;
         colls = Physics.OverlapSphere(transform.position, 10);
-        //hpBar.rectTransform.localScale = new Vector3(1f, 1f, 1f);
         infect = false;
         immune = false;
-        isdead = false; ;
+        isdead = false;
+        showHpbar = false;
         tutorialManager = GameObject.Find("GameManager").GetComponent<TutorialManager>();
+        hpBar_parent = GameObject.Find("HpBar");
+
+        hpBar = Instantiate(hpBarpref, hpBar_parent.transform);
+        hpBar_script = hpBar.GetComponentInChildren<HpBar>();
+        SetHpBar();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // transform.LookAt(transform_Player);
         if (curHealth <= 0 && isdead == false) 
         {
-            hpBar.SetActive(false);
             animator.SetInteger("isDead_goblin", randint % 2 + 1);
             isdead = true;
-            tutorialManager.goblin++;
+            if (tutorialManager.goblin_die == 0)
+            {                
+                tutorialManager.goblin_die++;
+                tutorialManager.TutorialUpdate();
+            }
         }
         else
         {
@@ -67,9 +79,7 @@ public class Goblin : MonoBehaviour
                 {
                     colls[i].SendMessage("onfight", SendMessageOptions.DontRequireReceiver);
                 }
-
             }
-
 
             if (Vector3.Distance(transform_Player.position, transform.position) < 10f)
             {
@@ -81,29 +91,26 @@ public class Goblin : MonoBehaviour
                 animator.SetBool("onFight_goblin", false);
             }
         }
-        
+        if(hpBar.activeSelf) hpBar_script.SendMessage("GetTransform", transform);
+
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Sword" && curHealth > 0 && !immune)
         {
-            Player player = GameObject.Find("Player").GetComponent<Player>();
-
-            
+            Player player = GameObject.Find("Player").GetComponent<Player>();                       
             curHealth -= player.damage;
-
+            
             StartCoroutine(OnDamage());
-
-            //hpBar.rectTransform.localScale = new Vector3((float)curHealth / (float)maxHealth, 1f, 1f);
-
-            //hpBar.rectTransform.localScale = new Vector3(Mathf.Lerp(0f,(float)curHealth/(float)maxHealth,Time.deltaTime*5f),1f,1f);
-            Debug.Log(Mathf.Lerp(0f, (float)curHealth / (float)maxHealth, Time.deltaTime * 5f));
-
-
-
-            Debug.Log("근접공격 적중. 고블린 현재체력 : " + curHealth);
-
+            StopCoroutine("ShowHp");
+            StartCoroutine("ShowHp");
+            SetHpBar();
         }
+    }
+
+    void SetHpBar()
+    {
+        hpBar.GetComponent<HpBar>().HealthEffect(((float)curHealth/ (float)maxHealth));
     }
     void onfight()
     {
@@ -124,7 +131,13 @@ public class Goblin : MonoBehaviour
         hit.Stop();
         immune = false;
     }
-
+    IEnumerator ShowHp()
+    {
+        hpBar.SetActive(true);        
+        yield return new WaitForSeconds(5f);
+        hpBar.SetActive(false);
+        Debug.Log("고블린 체력바 꺼짐");
+    }
 
     public IEnumerator arrowShot()
     {

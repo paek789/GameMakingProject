@@ -106,7 +106,6 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "trap_tutorial") tutorialManager.trap=1;
         if (!invincibility && curhealth > 0)
         {
             if (!rollImmuneDamage)
@@ -119,18 +118,15 @@ public class Player : MonoBehaviour
                         damageRoutine(0.4f, true, other);
                     }
                     else damageRoutine(1, false, other);
-                    Debug.Log("플레이어 피격. 플레이어 현재체력 : " + curhealth);
                 }
                 else if (other.tag == "JumpAttackRange" || other.tag == "spell1" || other.tag == "spell2" || other.tag == "trap" || other.tag == "trap1" || other.tag == "trap2")
                 {
                     damageRoutine(1, false, other);
-                    Debug.Log("플레이어 피격. 플레이어 현재체력 : " + curhealth);
                 }
             }
             else if (other.tag == "JumpAttackRange")
             {
                 damageRoutine(1, false, other);
-                Debug.Log("플레이어 피격. 플레이어 현재체력 : " + curhealth);
             }
             else if (rollImmuneDamage) Debug.Log("구르기 무적으로 회피.");
 

@@ -21,9 +21,6 @@ public class GameManager : MonoBehaviour
     public GameObject goblin3;
     public GameObject demon;
     public GameObject boss;
-    public GameObject goblin_hpbar1;
-    public GameObject goblin_hpbar2;
-    public GameObject goblin_hpbar3;
 
 
     public Text textBossHp;
@@ -68,6 +65,7 @@ public class GameManager : MonoBehaviour
     public void startGame()
     {
         gameStart = true;
+        this.GetComponent<TutorialManager>().enabled = true;
         cameraMain.SetActive(true);
         panelGame.SetActive(true);
         cameraMenu.SetActive(false);
@@ -79,9 +77,6 @@ public class GameManager : MonoBehaviour
         goblin3.SetActive(true);
         boss.SetActive(true);
         demon.SetActive(true);
-        goblin_hpbar1.SetActive(true);
-        goblin_hpbar2.SetActive(true);
-        goblin_hpbar3.SetActive(true);
     }
 
     private void LateUpdate()

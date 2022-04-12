@@ -36,12 +36,18 @@ public class opendoor : MonoBehaviour
 
         if(other.tag == "Player")
         {
-            tutorialManager.tutorial = 1;
+            StartCoroutine("TutorialEnd");
             Destroy(blockwall, 0);
             isPlayerArrive = true;
             fog.Stop();
             camerafollow.StartCoroutine(camerafollow.Shake(0.05f, 4f));
             Destroy(gameObject, 5);
         }
+    }
+    IEnumerator TutorialEnd()
+    {
+        tutorialManager.tutorial_text.text = "튜토리얼은 여기까지입니다. 모든적을 처치하며 진행하세요!";
+        yield return new WaitForSeconds(3);
+        tutorialManager.tutorial_text.text = "";
     }
 }

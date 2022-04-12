@@ -10,7 +10,6 @@ public class Boss1 : MonoBehaviour
     public int damage;
     public int maxHealth;
     public int curHealth;
-    public Image hpBar;
     public ParticleSystem hit;
     Color curColor;
 
@@ -32,7 +31,6 @@ public class Boss1 : MonoBehaviour
         mat = GameObject.Find("Body").GetComponent<SkinnedMeshRenderer>().material;
         curmat = mat;
         curColor = mat.color;
-        hpBar.rectTransform.localScale = new Vector3(1f, 1f, 1f);
         
     }
 
@@ -52,7 +50,6 @@ public class Boss1 : MonoBehaviour
 
             StartCoroutine(OnDamage());
 
-            hpBar.rectTransform.localScale = new Vector3((float)curHealth / (float)maxHealth, 1f, 1f);
             Debug.Log("근접공격 적중. 보스 현재체력 : " + curHealth);
 
         }

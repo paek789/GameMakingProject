@@ -8,13 +8,11 @@ public class attackTime : MonoBehaviour
     public Player player;
     Vector3 embervec;
     Vector3 collvec;
-    Quaternion emberq;
     
     // Start is called before the first frame update
     void Start()
     {
         embervec = new Vector3(0, 1.5f,0);
-        emberq = player.transform.rotation;
     }
 
     // Update is called once per frame

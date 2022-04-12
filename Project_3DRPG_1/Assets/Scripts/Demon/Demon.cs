@@ -14,13 +14,18 @@ public class Demon : MonoBehaviour
     public int damage;
     public int maxHealth;
     public int curHealth;
-    public GameObject hpBar;
     public ParticleSystem hit;
     bool stiff;
     bool immune;
     public bool isCover;
     public BoxCollider meleeAttack_range;
-    
+
+    public GameObject hpBarpref;
+    public GameObject hpbar_position;
+    GameObject hpBar_parent;
+    GameObject hpBar;
+    HpBar hpBar_script;
+
     Player player;
 
     Animator animator;
@@ -39,6 +44,11 @@ public class Demon : MonoBehaviour
         curmat = mat;
         immune = false;
         stiff = true;
+        hpBar_parent = GameObject.Find("HpBar");
+
+        hpBar = Instantiate(hpBarpref, hpBar_parent.transform);
+        hpBar_script = hpBar.GetComponentInChildren<HpBar>();
+        SetHpBar();
     }
 
     // Update is called once per frame
@@ -52,14 +62,15 @@ public class Demon : MonoBehaviour
         {
             animator.SetBool("isOnFight", false);
         }
+        if (hpBar.activeSelf)
+        {
+            hpBar_script.SendMessage("GetTransform", hpbar_position.transform);
+        }
 
     }
     private void OnTriggerEnter(Collider other)
     {
         if (curHealth <= 0) return;
-
-        
-
         if(other.tag == "Sword" && curHealth>0 && !immune)
         {
             int randint = Random.Range(1, 4);
@@ -78,11 +89,19 @@ public class Demon : MonoBehaviour
                 }
             }
             StartCoroutine(OnDamage());
+            StopCoroutine("ShowHp");
+            StartCoroutine("ShowHp");
+            SetHpBar();
         }
         if (curHealth <= 0)
         {
             animator.SetBool("isDead", true);
         }
+
+    }
+    void SetHpBar()
+    {
+        hpBar.GetComponent<HpBar>().HealthEffect(((float)curHealth / (float)maxHealth));
     }
     IEnumerator StiffTimer()
     {
@@ -90,6 +109,14 @@ public class Demon : MonoBehaviour
         yield return new WaitForSeconds(15f);
         stiff = true;
 
+    }    
+    IEnumerator ShowHp()
+    {
+        hpBar.SetActive(true);
+        Debug.Log("고블린 체력바 켜켜짐");
+        yield return new WaitForSeconds(5f);
+        Debug.Log("고블린 체력바 꺼짐");
+        hpBar.SetActive(false);
     }
     IEnumerator BlockParticle()
     {
