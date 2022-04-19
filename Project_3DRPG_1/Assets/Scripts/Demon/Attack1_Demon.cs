@@ -19,6 +19,7 @@ public class Attack1_Demon : StateMachineBehaviour
         timer += Time.deltaTime;
         if (timer >0.35f && timer < 0.55f)
         {
+            GameObject.Find("Music").transform.Find("Demon_Attack1").gameObject.SetActive(true);
             if (Vector3.Distance(demon.transform.position, demon.transform_Player.position) > 1.5f)
             {
                 demon.transform.position = Vector3.MoveTowards(demon.transform.position, demon.transform_Player.position, Time.deltaTime * demon.speed);
@@ -33,6 +34,7 @@ public class Attack1_Demon : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         demon.speed /= 2;
+        GameObject.Find("Music").transform.Find("Demon_Attack1").gameObject.SetActive(false);
         animator.SetBool("isAttack", false);
     }
 }

@@ -35,9 +35,6 @@ public class Player : MonoBehaviour
     Vector3 damagevec;
 
     Material mat;
-    Material curmat;
-    CapsuleCollider capsuleCollider;
-    Rigidbody rigid;
     Animator animator;
     ParticleSystem blockParticle;
     public ParticleSystem fireParticle1, fireParticle2, sparkParticle1, sparkParticle2, potionParticle;
@@ -50,15 +47,12 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        rigid = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-        capsuleCollider = GetComponent<CapsuleCollider>();
         mat = GameObject.Find("skeleton_mesh").GetComponent<SkinnedMeshRenderer>().material;
         blockParticle = GameObject.Find("Shockwave").GetComponent<ParticleSystem>();
         tutorialManager = GameObject.Find("GameManager").GetComponent<TutorialManager>();
         isb = false;
         isd = false;
-        curmat = mat;
         rollImmuneDamage = false;
         rotateVec = new Vector3(0, 0, 0).normalized;
         hpBar.rectTransform.localScale = new Vector3(1f, 1f, 1f);
@@ -77,18 +71,7 @@ public class Player : MonoBehaviour
             transform.position += -transform.forward * 3 * Time.deltaTime;
             timer += 0.005f;
         }
-        /*
-        if (sDown && dash_timer > 3f)
-        {
-            StartCoroutine(Dash());            
-        }
-        else
-        {
-            dash_timer += 0.005f;            
-        }
-        */
         getInput();
-        
     }
     void getInput()
     {
@@ -188,7 +171,6 @@ public class Player : MonoBehaviour
                 trap trap = other.GetComponent<trap>();
                 StartCoroutine(FireParticle());
                 getdamage = trap.damage;
-
             }
             else if (other.tag == "trap1")
             {

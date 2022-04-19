@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class walkState_Player : StateMachineBehaviour
 {
-    Transform playertransform;
+    Transform playertransform;    
     Player player;
+   
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         player = animator.GetComponent<Player>();
         playertransform = animator.GetComponent<Transform>();
+        GameObject.Find("Music").transform.Find("Player_Walk").gameObject.SetActive(true);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -39,6 +41,7 @@ public class walkState_Player : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         player.rotateVec = new Vector3(0, 0, 0);
+        GameObject.Find("Music").transform.Find("Player_Walk").gameObject.SetActive(false);
     }
 
     public void Rotate()

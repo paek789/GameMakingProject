@@ -14,6 +14,7 @@ public class rollState_Player : StateMachineBehaviour
         rollVec = new Vector3(player.hAxis, 0, player.vAxis).normalized;
         player.StartCoroutine("onimmuneDamage");
         player.transform.LookAt(player.transform.position + rollVec);
+        GameObject.Find("Music").transform.Find("Player_RollStart").gameObject.SetActive(true);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -22,6 +23,6 @@ public class rollState_Player : StateMachineBehaviour
     }
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        GameObject.Find("Music").transform.Find("Player_RollStart").gameObject.SetActive(false);
     }
 }

@@ -32,6 +32,7 @@ public class spell2 : MonoBehaviour
             }
             else if (timer < 2.2f)
             {
+                GameObject.Find("Music").transform.Find("Demon_Spell2").gameObject.SetActive(true);
                 range.enabled = true;
             }
             else

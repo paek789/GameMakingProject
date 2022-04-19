@@ -41,19 +41,19 @@ public class spell1 : MonoBehaviour
     {
         if (rotatevec.x < movevec.x)
         {
-            rotatevec.x += 0.001f;
+            rotatevec.x += 0.003f;
         }
         if (rotatevec.x > movevec.x)
         {
-            rotatevec.x -= 0.001f;
+            rotatevec.x -= 0.003f;
         }
         if (rotatevec.z < movevec.z)
         {
-            rotatevec.z += 0.001f;
+            rotatevec.z += 0.003f;
         }
         if (rotatevec.z > movevec.z)
         {
-            rotatevec.z -= 0.001f;
+            rotatevec.z -= 0.003f;
         }
     }
 }

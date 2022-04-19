@@ -24,6 +24,7 @@ public class Attack2_Demon : StateMachineBehaviour
                 demon.transform.position = Vector3.MoveTowards(demon.transform.position, demon.transform_Player.position, Time.deltaTime * demon.speed);
             }
             demon.meleeAttack_range.enabled = true;
+            GameObject.Find("Music").transform.Find("Demon_Attack2").gameObject.SetActive(true);
         }
         else
         {
@@ -32,6 +33,7 @@ public class Attack2_Demon : StateMachineBehaviour
     }
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        GameObject.Find("Music").transform.Find("Demon_Attack2").gameObject.SetActive(false);
         demon.speed /= 10;
     }
 }

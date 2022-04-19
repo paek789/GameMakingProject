@@ -18,5 +18,6 @@ public class Spell1_Demon : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.SetBool("spell1", false);
+        GameObject.Find("Music").transform.Find("Demon_Spell1").gameObject.SetActive(false);
     }
 }

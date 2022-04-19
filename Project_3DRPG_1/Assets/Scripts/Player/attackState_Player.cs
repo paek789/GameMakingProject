@@ -19,6 +19,7 @@ public class attackState_Player : StateMachineBehaviour
         timer = 0;
         clickPos = Vector3.one;
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        GameObject.Find("Music").transform.Find("Player_Attack1").gameObject.SetActive(true);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -41,6 +42,7 @@ public class attackState_Player : StateMachineBehaviour
     {
         player.rotateVec = player.transform.forward;
         melee_Attack.enabled = false;
+        GameObject.Find("Music").transform.Find("Player_Attack1").gameObject.SetActive(false);
     }
 
 }

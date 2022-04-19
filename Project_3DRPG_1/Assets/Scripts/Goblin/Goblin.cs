@@ -16,12 +16,12 @@ public class Goblin : MonoBehaviour
     public int curHealth;
     public ParticleSystem hit;
 
+    MusicController musicController;
     TutorialManager tutorialManager;
     bool immune;
     bool isdead;
     int randint;
-    bool infect;
-    bool showHpbar;
+    bool fightInfect;
 
     public GameObject hpBarpref;
     GameObject hpBar_parent;
@@ -32,8 +32,6 @@ public class Goblin : MonoBehaviour
 
     Animator animator;
     Material mat;
-    Material curmat;
-    Collider[] colls;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,13 +40,11 @@ public class Goblin : MonoBehaviour
         transform_Player = GameObject.Find("Player").transform;
         animator = GetComponent<Animator>();
         mat = transform.Find("Goblin Hunter").GetComponent<SkinnedMeshRenderer>().material;
-        curmat = mat;
-        colls = Physics.OverlapSphere(transform.position, 10);
-        infect = false;
+        fightInfect = false;
         immune = false;
         isdead = false;
-        showHpbar = false;
         tutorialManager = GameObject.Find("GameManager").GetComponent<TutorialManager>();
+        musicController = GameObject.Find("Music").GetComponent<MusicController>();
         hpBar_parent = GameObject.Find("HpBar");
 
         hpBar = Instantiate(hpBarpref, hpBar_parent.transform);
@@ -71,8 +67,7 @@ public class Goblin : MonoBehaviour
         }
         else
         {
-
-            if (animator.GetBool("onFight_goblin") && infect)
+            if (animator.GetBool("onFight_goblin") && fightInfect)
             {
                 Collider[] colls = Physics.OverlapSphere(transform.position, 10);
                 for (int i = 0; i < colls.Length; ++i)
@@ -80,11 +75,10 @@ public class Goblin : MonoBehaviour
                     colls[i].SendMessage("onfight", SendMessageOptions.DontRequireReceiver);
                 }
             }
-
             if (Vector3.Distance(transform_Player.position, transform.position) < 10f)
             {
                 animator.SetBool("onFight_goblin", true);
-                infect = true;
+                fightInfect = true;
             }
             else if (Vector3.Distance(transform_Player.position, transform.position) > 20f)
             {
@@ -107,7 +101,6 @@ public class Goblin : MonoBehaviour
             SetHpBar();
         }
     }
-
     void SetHpBar()
     {
         hpBar.GetComponent<HpBar>().HealthEffect(((float)curHealth/ (float)maxHealth));
@@ -115,7 +108,7 @@ public class Goblin : MonoBehaviour
     void onfight()
     {
         animator.SetBool("onFight_goblin", true);
-        infect = false;
+        fightInfect = false;
     }
 
     IEnumerator OnDamage()
@@ -134,9 +127,8 @@ public class Goblin : MonoBehaviour
     IEnumerator ShowHp()
     {
         hpBar.SetActive(true);        
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2f);
         hpBar.SetActive(false);
-        Debug.Log("°íºí¸° Ã¼·Â¹Ù ²¨Áü");
     }
 
     public IEnumerator arrowShot()
@@ -145,6 +137,7 @@ public class Goblin : MonoBehaviour
         GameObject intantarrow = Instantiate(arrow, arrowstart.position, transform.rotation);
         Rigidbody arrowRigid = intantarrow.GetComponent<Rigidbody>();
         arrowRigid.velocity = (transform.forward + new Vector3(0,0.2f,0)) * 20;
+        yield return new WaitForSeconds(0.3f);
     }
 
 } 

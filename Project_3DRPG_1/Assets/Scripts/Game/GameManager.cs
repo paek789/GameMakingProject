@@ -147,5 +147,13 @@ public class GameManager : MonoBehaviour
 
         }
     }
+    public void GameSave()
+    {
+
+    }
+    public void GameLoad()
+    {
+
+    }
 
 }

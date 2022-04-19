@@ -11,7 +11,6 @@ public class TutorialManager : MonoBehaviour
         Fighttutorial,
         Traptutorial
     }
-
     States state;
 
     public Text tutorial_text;
@@ -32,6 +31,7 @@ public class TutorialManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
     }
     public void TutorialUpdate()
     {

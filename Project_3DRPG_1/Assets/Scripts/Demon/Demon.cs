@@ -25,8 +25,8 @@ public class Demon : MonoBehaviour
     GameObject hpBar_parent;
     GameObject hpBar;
     HpBar hpBar_script;
-
     Player player;
+    MusicController musicController;
 
     Animator animator;
     public SkinnedMeshRenderer skin;
@@ -45,6 +45,7 @@ public class Demon : MonoBehaviour
         immune = false;
         stiff = true;
         hpBar_parent = GameObject.Find("HpBar");
+        musicController = GameObject.Find("Music").GetComponent<MusicController>();
 
         hpBar = Instantiate(hpBarpref, hpBar_parent.transform);
         hpBar_script = hpBar.GetComponentInChildren<HpBar>();
@@ -97,7 +98,6 @@ public class Demon : MonoBehaviour
         {
             animator.SetBool("isDead", true);
         }
-
     }
     void SetHpBar()
     {
@@ -140,6 +140,7 @@ public class Demon : MonoBehaviour
     IEnumerator Dospell1()
     {
         yield return new WaitForSeconds(2f);
+        GameObject.Find("Music").transform.Find("Demon_Spell1").gameObject.SetActive(true);
         GameObject intantSpell1 = Instantiate(spell1, spell1_Start.position, transform.rotation);
     }
 }
