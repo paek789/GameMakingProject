@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public bool isb;
     public bool isd;
     public bool invincibility;
+    public bool isGrabbed;
 
 
     public float hAxis;
@@ -22,6 +23,8 @@ public class Player : MonoBehaviour
     public bool mlDown;
     public bool mrDown;
     public bool mrUp;
+    public bool aDown;
+    public bool dDown;
     public bool spaceDown;
     float timer;
     float dash_timer;
@@ -35,8 +38,9 @@ public class Player : MonoBehaviour
     Vector3 damagevec;
 
     Material mat;
-    Animator animator;
+    Animator animator;   
     ParticleSystem blockParticle;
+    public Rigidbody rigid;
     public ParticleSystem fireParticle1, fireParticle2, sparkParticle1, sparkParticle2, potionParticle;
     public TutorialManager tutorialManager;
     public GameObject hitScreen;
@@ -49,6 +53,7 @@ public class Player : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         mat = GameObject.Find("skeleton_mesh").GetComponent<SkinnedMeshRenderer>().material;
+        rigid = GetComponent<Rigidbody>();
         blockParticle = GameObject.Find("Shockwave").GetComponent<ParticleSystem>();
         tutorialManager = GameObject.Find("GameManager").GetComponent<TutorialManager>();
         isb = false;
@@ -60,6 +65,7 @@ public class Player : MonoBehaviour
         dash_timer = 0f;
         invincibility = false;
         curColor = mat.color;
+        isGrabbed = false;
     }
 
     // Update is called once per frame
@@ -68,10 +74,10 @@ public class Player : MonoBehaviour
         if (curhealth <= 0) animator.SetBool("isDead", true);
         if (timer < 0.3f)
         {
-            transform.position += -transform.forward * 3 * Time.deltaTime;
+            //transform.position += -transform.forward * 3 * Time.deltaTime;
             timer += 0.005f;
         }
-        getInput();
+       getInput();
     }
     void getInput()
     {
@@ -80,6 +86,8 @@ public class Player : MonoBehaviour
         vDown = Input.GetButton("Vertical");
         hDown = Input.GetButton("Horizontal");
         sDown = Input.GetKeyDown(KeyCode.LeftShift);
+        aDown = Input.GetKeyDown(KeyCode.A);
+        dDown = Input.GetKeyDown(KeyCode.D);
         mlDown = Input.GetMouseButtonDown(0);
         mrDown = Input.GetMouseButton(1);
         mrUp = Input.GetMouseButtonUp(1);
@@ -102,7 +110,7 @@ public class Player : MonoBehaviour
                     }
                     else damageRoutine(1, false, other);
                 }
-                else if (other.tag == "JumpAttackRange" || other.tag == "spell1" || other.tag == "spell2" || other.tag == "trap" || other.tag == "trap1" || other.tag == "trap2")
+                else if (other.tag == "JumpAttackRange" || other.tag == "spell1" || other.tag == "spell2" || other.tag == "trap" || other.tag == "trap1" || other.tag == "trap2" || other.tag == "Wave" || other.tag == "Meteor")
                 {
                     damageRoutine(1, false, other);
                 }
@@ -164,6 +172,18 @@ public class Player : MonoBehaviour
             damagevec = new Vector3(other.transform.position.x, transform.position.y, other.transform.position.z);
             getdamage = spell2.damage;
         }
+        else if (other.tag == "Wave")
+        {
+            Wave wave = other.GetComponentInParent<Wave>();
+            damagevec = new Vector3(other.transform.position.x, transform.position.y, other.transform.position.z);
+            getdamage = wave.damage;
+        }
+        else if (other.tag == "Meteor")
+        {
+            Meteor meteor = other.GetComponentInParent<Meteor>();
+            damagevec = new Vector3(other.transform.position.x, transform.position.y, other.transform.position.z);
+            getdamage = meteor.damage;
+        }
         else if (other.tag == "trap" || other.tag == "trap1" || other.tag == "trap2")
         {
             if(other.tag == "trap")
@@ -185,7 +205,6 @@ public class Player : MonoBehaviour
                 StartCoroutine(FireParticle());
                 getdamage = trap2.damage;
             }
-
             damagevec = new Vector3(other.transform.position.x, transform.position.y, other.transform.position.z);
         }
 
@@ -214,6 +233,12 @@ public class Player : MonoBehaviour
     public void Potionparticle()
     {
         StartCoroutine(PotionParticle());
+    }
+    public void Grabbed(bool playerGrabed)
+    {
+        rigid.useGravity = !playerGrabed;
+        isGrabbed = playerGrabed;
+        animator.SetBool("isGrabbed", playerGrabed);
     }
     public IEnumerator onimmuneDamage()
     {

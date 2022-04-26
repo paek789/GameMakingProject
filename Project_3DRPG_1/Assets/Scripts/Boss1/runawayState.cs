@@ -30,8 +30,8 @@ public class runawayState : StateMachineBehaviour
     }
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        boss1.a = 5;
-        boss1.StartCoroutine("Del");
+        boss1.runAwayCooltime = 5;
+        boss1.StartCoroutine("RunAwayCoolDown");
         timer = 0;
         boss1.speed /= 2;
     }

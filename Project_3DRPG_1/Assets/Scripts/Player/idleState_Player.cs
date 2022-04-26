@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class idleState_Player : StateMachineBehaviour
 {
-    Transform playertransform;
     Player player;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         player = animator.GetComponent<Player>();
-        playertransform = animator.GetComponent<Transform>();
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

@@ -53,6 +53,13 @@ public class jumpState : StateMachineBehaviour
         {
             jumpAttack.enabled = true;
             camerafollow.StartCoroutine(camerafollow.Shake(0.5f, 0.15f));
+            Debug.Log(animator.GetInteger("phase"));
+            if (animator.GetInteger("phase") == 2)
+            {
+                boss1.StopCoroutine("DropMeteor");
+                boss1.StartCoroutine("DropMeteor");
+                Debug.Log("코루틴호출");
+            }
         }
         else
         {
@@ -69,6 +76,7 @@ public class jumpState : StateMachineBehaviour
         boss1Transform.LookAt(boss1.player);
         animator.SetBool("isJump", false);
         boss1.speed /= 3;
+        mesh.enabled = false;
         jumpAttack.enabled = false;
     }
 

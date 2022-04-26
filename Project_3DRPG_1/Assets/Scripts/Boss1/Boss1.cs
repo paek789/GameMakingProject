@@ -5,39 +5,35 @@ using UnityEngine.UI;
 
 public class Boss1 : MonoBehaviour
 {
+    [SerializeField]
+    GameObject meteor;
+
     public Transform player;
     public float speed;
     public int damage;
     public int maxHealth;
     public int curHealth;
+    public int runAwayCooltime, SummonTotemCoolTime, GrabCoolTime = 0;
     public ParticleSystem hit;
-    Color curColor;
+    public Material mat;
+    public Color curColor;
 
 
     Animator animator;
-    Rigidbody rigid;
-    CapsuleCollider capsuleColider;
-    Material mat;
-    Material curmat;
 
-    public int a=0;
     // Start is called before the first frame update
     void Start()
     {
-        rigid = GetComponent<Rigidbody>();
-        capsuleColider = GetComponent<CapsuleCollider>();
         player = GameObject.Find("Player").transform;
         animator = GetComponent<Animator>();
         mat = GameObject.Find("Body").GetComponent<SkinnedMeshRenderer>().material;
-        curmat = mat;
         curColor = mat.color;
-        
     }
 
     // Update is called once per frame
     void Update()
-    {        
-        if(curHealth <=0) animator.SetBool("isDead", true);
+    {
+        if (curHealth <=0) animator.SetBool("isDead", true);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -54,7 +50,6 @@ public class Boss1 : MonoBehaviour
 
         }
     }
-
     IEnumerator OnDamage()
     {
         mat.color = Color.red;
@@ -66,12 +61,42 @@ public class Boss1 : MonoBehaviour
         mat.color = curColor;
     }
 
-    public IEnumerator Del()
+    
+    public IEnumerator RunAwayCoolDown()
     {
-        while (a!=0)
+        while (runAwayCooltime!= 0)
         {
             yield return new WaitForSeconds(1);
-            a--;
+            runAwayCooltime--;
         }        
+    }
+    public IEnumerator SummonTotemCoolDown()
+    {
+        while (SummonTotemCoolTime != 0)
+        {
+            yield return new WaitForSeconds(1);
+            SummonTotemCoolTime--;
+        }
+    }
+
+    public IEnumerator GrabCoolDown()
+    {
+        while (GrabCoolTime != 0)
+        {
+            yield return new WaitForSeconds(1);
+            GrabCoolTime--;
+        }
+    }
+    public IEnumerator DropMeteor()
+    {
+        for(int i = 0; i<30; i++)
+        {
+            float randomX = Random.Range(-22f, 22f);
+            float randomZ = Random.Range(-22f, 22f);
+            Instantiate(meteor, new Vector3(randomX, 0.5f, randomZ), Quaternion.identity);
+            Debug.Log("메테오떨구기");
+            yield return new WaitForSeconds(0.2f);
+        }
+
     }
 }

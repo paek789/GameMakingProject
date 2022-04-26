@@ -16,7 +16,7 @@ public class Attack2State : StateMachineBehaviour
         boss1Transform = animator.GetComponent<Transform>();
         meleeAttack = GameObject.Find("MeleeAttackRange").GetComponent<BoxCollider>();
         mat = GameObject.Find("MeleeAttackRange").GetComponent<MeshRenderer>().material;
-        mesh = GameObject.Find("MeleeAttackRange").GetComponent<MeshRenderer>();
+        mesh = GameObject.Find("MeleeAttackRange").GetComponent<MeshRenderer>();        
         timer = 0;
     }
 
@@ -42,6 +42,8 @@ public class Attack2State : StateMachineBehaviour
     }
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        meleeAttack.enabled = false;
+        mesh.enabled = false;
     }
 
 }

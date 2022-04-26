@@ -55,18 +55,15 @@ public class attack3State : StateMachineBehaviour
         } 
         else meleeAttack2.enabled = false;
 
-
-
-
-
-
-
-
         animator.SetBool("isAttack3", false);
     }
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         attack3Particle.Stop();
+        mesh.enabled = false;
+        mesh2.enabled = false;
+        meleeAttack.enabled = false;
+        meleeAttack2.enabled = false;
     }
 
 }

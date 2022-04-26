@@ -13,27 +13,47 @@ public class idleState : StateMachineBehaviour
         boss1 = animator.GetComponent<Boss1>();
         boss1Transform = animator.GetComponent<Transform>();
         randint = Random.Range(0,10);
+
+        
+
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (Vector3.Distance(boss1Transform.position, boss1.player.position) < 25)
         {
-            if (Vector3.Distance(boss1Transform.position, boss1.player.position) <= 6 && randint > 4 && boss1.a <= 0)
+            if (animator.GetInteger("phase") == 1)
             {
-                animator.SetBool("isRunaway", true);
+                if (Vector3.Distance(boss1Transform.position, boss1.player.position) <= 6 && randint > 4 && boss1.runAwayCooltime <= 0)
+                {
+                    animator.SetBool("isRunaway", true);
+                }
+                else if (Vector3.Distance(boss1Transform.position, boss1.player.position) <= 6)
+                {
+                    animator.SetBool("isWalk", true);
+                }
+                if (Vector3.Distance(boss1Transform.position, boss1.player.position) > 6 && randint > 5)
+                    animator.SetBool("isShout2", true);
+                else if (Vector3.Distance(boss1Transform.position, boss1.player.position) > 6)
+                    animator.SetBool("isShout1", true);
             }
-            else if (Vector3.Distance(boss1Transform.position, boss1.player.position) <= 6)
+            else
             {
-                animator.SetBool("isWalk", true);
+                if (boss1.SummonTotemCoolTime == 0)
+                {
+                    animator.SetBool("isSummonTotem", true);
+                }
+                else if (boss1.GrabCoolTime == 0)
+                {
+                    animator.SetBool("isGrab", true);
+                }
+                else if (randint > 5)
+                {
+                    animator.SetBool("isShout2", true);
+                }
+                else animator.SetBool("isShout1", true);
             }
-
-            if (Vector3.Distance(boss1Transform.position, boss1.player.position) > 6 && randint > 5)
-                animator.SetBool("isShout2", true);
-            else if (Vector3.Distance(boss1Transform.position, boss1.player.position) > 6)
-                animator.SetBool("isShout1", true);
         }
-
     }
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {

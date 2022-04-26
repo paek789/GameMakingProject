@@ -12,14 +12,14 @@ public class TutorialManager : MonoBehaviour
         Traptutorial
     }
     States state;
-
+    
     public Text tutorial_text;
     public int beacon;
     public int goblin_die;
-    public GameObject goblin_object;
-    public GameObject beacon_object;
-    public GameObject tutorial_clear;
-    public ParticleSystem trap_particle;
+    [SerializeField]
+    GameObject goblin_object, beacon_object, tutorial_clear;
+    [SerializeField] 
+    ParticleSystem trap_particle;
     // Start is called before the first frame update
     void Start()
     {

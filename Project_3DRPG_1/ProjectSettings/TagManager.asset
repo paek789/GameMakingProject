@@ -29,6 +29,10 @@ TagManager:
   - Demon
   - Beacon
   - trap_tutorial
+  - OnFightRange
+  - Fire
+  - Wave
+  - Meteor
   layers:
   - Default
   - TransparentFX
